@@ -1,0 +1,12 @@
+dbt_cdc_practice:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: warehouse_user
+      password: warehouse_pass
+      port: 5434
+      dbname: warehouse_db
+      schema: analytics
+      threads: 4
