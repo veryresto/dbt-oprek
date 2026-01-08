@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  - name: source_pg
+    database: warehouse_db
+    schema: raw
+    description: "Raw tables replicated from pg_source (CDC output)"
+
+    tables:
+      - name: customers
+        description: "Customer master data"
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+
+      - name: products
+        description: "Product master data"
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+              - unique
+
+      - name: orders
+        description: "Order header data"
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+          - name: customer_id
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('source_pg', 'customers')
+                    field: customer_id
+
+      - name: order_items
+        description: "Order line items"
+        columns:
+          - name: order_item_id
+            tests:
+              - not_null
+              - unique
+          - name: order_id
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('source_pg', 'orders')
+                    field: order_id
