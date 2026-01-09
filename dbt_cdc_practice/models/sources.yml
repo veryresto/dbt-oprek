@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: source_pg
+  - name: raw
     database: warehouse_db
     schema: raw
     description: "Raw tables replicated from pg_source (CDC output)"
@@ -35,7 +35,7 @@ sources:
               - not_null
               - relationships:
                   arguments:
-                    to: source('source_pg', 'customers')
+                    to: source('raw', 'customers')
                     field: customer_id
 
       - name: order_items
@@ -50,5 +50,5 @@ sources:
               - not_null
               - relationships:
                   arguments:
-                    to: source('source_pg', 'orders')
+                    to: source('raw', 'orders')
                     field: order_id
