@@ -1,3 +1,4 @@
+-- models/staging/stg_customers.sql
 with source as (
 
     select
